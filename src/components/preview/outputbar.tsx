@@ -18,7 +18,7 @@ export interface IProps {
  * Component for an output bar.
  */
 @observer
-export class OutputBar extends React.Component<IProps, void> {
+export class OutputBar extends React.Component<IProps, {}> {
     /**
      * @returns The rendered component.
      */

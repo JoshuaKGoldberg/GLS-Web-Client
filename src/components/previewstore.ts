@@ -1,4 +1,4 @@
-import { observable } from "mobx";
+import { autorunAsync, observable } from "mobx";
 
 import { InputAreaStore } from "./editor/inputareastore";
 import { OutputAreaStore } from "./preview/outputareastore";
@@ -35,5 +35,7 @@ export class PreviewStore {
         this.optionsBar = optionsBar;
         this.inputArea = inputArea;
         this.outputArea = outputArea;
+
+        autorunAsync(() => this.outputArea.recompute(this.inputArea.sourceLines, this.optionsBar.language));
     }
 }

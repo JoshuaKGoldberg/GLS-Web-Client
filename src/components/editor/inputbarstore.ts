@@ -3,7 +3,6 @@ import { action, observable } from "mobx";
 import { IStorageWrapper } from "../../storage/storagewrapper";
 import { stored } from "../../storage/stored";
 import { storing } from "../../storage/storing";
-import { CommandsListStore } from "./commands/commandsliststore";
 import { InputAreaStore } from "./inputareastore";
 
 /**
@@ -47,11 +46,6 @@ export class InputBarStore {
     public readonly inputArea: InputAreaStore;
 
     /**
-     * Store for a CommandsList component.
-     */
-    public readonly commandsList: CommandsListStore;
-
-    /**
      * Wrapper for persistent items kept in a Storage object.
      */
     private readonly storageWrapper: IStorageWrapper;
@@ -66,13 +60,11 @@ export class InputBarStore {
      * 
      * @param storageWrapper   Wrapper for persistent items kept in a Storage object.
      * @param inputArea   Store for an InputArea component.
-     * @param commandsList   Store for a CommandsList component.
      * @param samples   Available samples, keyed by name.
      */
-    public constructor(storageWrapper: IStorageWrapper, inputArea: InputAreaStore, commandsList: CommandsListStore, samples: ISamples) {
+    public constructor(storageWrapper: IStorageWrapper, inputArea: InputAreaStore, samples: ISamples) {
         this.storageWrapper = storageWrapper;
         this.inputArea = inputArea;
-        this.commandsList = commandsList;
         this.samples = samples;
 
         if (this.sample === "" && this.inputArea.source === "") {

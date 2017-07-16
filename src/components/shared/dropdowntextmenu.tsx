@@ -25,7 +25,7 @@ export interface IProps {
 /**
  * Component for a dropdown text menu.
  */
-export class DropdownTextMenu extends React.Component<IProps, void> {
+export class DropdownTextMenu extends React.Component<IProps, {}> {
     /**
      * @returns The rendered component.
      */

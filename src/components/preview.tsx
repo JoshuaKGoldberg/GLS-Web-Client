@@ -19,7 +19,7 @@ export interface IProps {
  * A real-time GLS Preview component.
  */
 @observer
-export class Preview extends React.Component<IProps, void> {
+export class Preview extends React.Component<IProps, {}> {
     /**
      * Renders the component.
      * 

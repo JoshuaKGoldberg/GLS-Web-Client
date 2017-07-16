@@ -1,7 +1,6 @@
 import { observer } from "mobx-react";
 import * as React from "react";
 
-import { CommandsList } from "./editor/commands/commandslist";
 import { InputArea } from "./editor/inputarea";
 import { InputBar } from "./editor/inputbar";
 import { EditorStore } from "./editorstore";
@@ -20,7 +19,7 @@ export interface IProps {
  * Component for an editor.
  */
 @observer
-export class Editor extends React.Component<IProps, void> {
+export class Editor extends React.Component<IProps, {}> {
     /**
      * @returns The rendered component.
      */
@@ -29,7 +28,6 @@ export class Editor extends React.Component<IProps, void> {
             <section className="editor">
                 <div className="component">
                     <InputArea store={this.props.store.inputArea} />
-                    <CommandsList store={this.props.store.commandsList} />
                     <InputBar store={this.props.store.inputBar} />
                 </div>
             </section>);

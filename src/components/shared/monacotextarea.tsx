@@ -100,7 +100,7 @@ export class MonacoTextArea extends React.Component<IProps, IState> {
     /**
      * 
      */
-    private editor: monaco.editor.IStandaloneCodeEditor;
+    private editor?: monaco.editor.IStandaloneCodeEditor;
 
     /**
      * Initializes a new instance of the MonacoTextArea class.
@@ -186,7 +186,9 @@ export class MonacoTextArea extends React.Component<IProps, IState> {
         }
 
         this.preventTriggerChangeEvent = true;
-        this.editor.setValue(nextProps.value);
+        if (this.editor) {
+            this.editor.setValue(nextProps.value);
+        }
         this.preventTriggerChangeEvent = false;
     }
 

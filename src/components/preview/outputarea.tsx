@@ -19,15 +19,26 @@ export interface IProps {
  * Component for converting GLS syntax to an output language.
  */
 @observer
-export class OutputArea extends React.Component<IProps, void> {
+export class OutputArea extends React.Component<IProps, {}> {
+    // lol demo time
+    private readonly timeout = setTimeout(
+        () => {
+            setInterval(
+                () => {
+                    this.forceUpdate();
+                },
+                250);
+        },
+        2800);
+
     /**
      * @returns The rendered component.
      */
     public render(): JSX.Element {
         return (
             <div className="gls-output-area">
-                {this.renderErrorBar(this.props.store.conversionResult.error)}
-                {this.renderOutputLines(this.props.store.conversionResult.outputLines)}
+                {this.renderErrorBar(this.props.store.result.error)}
+                {this.renderOutputLines(this.props.store.result.outputLines)}
             </div>);
     }
 

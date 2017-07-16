@@ -23,7 +23,7 @@ export interface IProps {
  * Component for a language chooser.
  */
 @observer
-export class LanguageChooser extends React.Component<IProps, void> {
+export class LanguageChooser extends React.Component<IProps, {}> {
     /**
      * All available GLS language names.
      */

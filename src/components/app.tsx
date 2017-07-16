@@ -19,7 +19,7 @@ export interface IAppProps {
  * Component for the entire application.
  */
 @observer
-export class App extends React.Component<IAppProps, void> {
+export class App extends React.Component<IAppProps, {}> {
     /**
      * @returns The rendered component.
      */

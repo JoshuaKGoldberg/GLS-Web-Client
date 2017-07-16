@@ -18,19 +18,13 @@ export interface IProps {
  * Component for an input bar.
  */
 @observer
-export class InputBar extends React.Component<IProps, void> {
+export class InputBar extends React.Component<IProps, {}> {
     /**
      * @returns The rendered component.
      */
     public render(): JSX.Element {
         return (
             <div className="options-bar input-bar">
-                <div className="sub-bar commands-filter">
-                    <input
-                        onChange={this.onFilterChange}
-                        placeholder="filter commands"
-                        type="text" />
-                </div>
                 <div className="sub-bar samples-commands">
                     <label>Choose a sample:</label>
                     <SampleChooser
@@ -39,15 +33,6 @@ export class InputBar extends React.Component<IProps, void> {
                     <button onClick={this.onReset}>reset</button>
                 </div>
             </div>);
-    }
-
-    /**
-     * Handles the filter input giving a new filter.
-     * 
-     * @param event   The triggering event.
-     */
-    private onFilterChange = (event: React.FormEvent<HTMLInputElement>): void => {
-        this.props.store.commandsList.setFilter(event.currentTarget.value);
     }
 
     /**

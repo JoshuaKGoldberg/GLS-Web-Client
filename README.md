@@ -1,7 +1,7 @@
-# GLS Web Client
+# NGLS Web Client
 
-A web client for previewing [GLS](https://github.com/highschoolhacking/gls).
-Preview it at https://aka.ms/gls-demo.
+A web client for previewing [NGLS](https://github.com/highschoolhacking/ngls).
+Preview it at https://bit.ly/ngls-demo.
 
 
 ## Development

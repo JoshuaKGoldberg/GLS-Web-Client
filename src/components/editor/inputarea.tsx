@@ -19,7 +19,7 @@ export interface IProps {
  * Component for a GLS input area.
  */
 @observer
-export class InputArea extends React.Component<IProps, void> {
+export class InputArea extends React.Component<IProps, {}> {
     /**
      * @returns The rendered component.
      */
@@ -39,5 +39,7 @@ export class InputArea extends React.Component<IProps, void> {
      * 
      * @param value   The new value.
      */
-    private receiveNewValue = (value: string): void => this.props.store.setSource(value);
+    private receiveNewValue = (value: string): void => {
+        this.props.store.setSource(value);
+    }
 }

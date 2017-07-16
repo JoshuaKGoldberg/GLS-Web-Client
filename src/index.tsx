@@ -1,19 +1,24 @@
-import { useStrict } from "mobx";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 import { App } from "./components/app";
 import { AppStoreFactory } from "./components/appstorefactory";
 
-useStrict(true);
+const main = async () => {
+    const storeFactory: AppStoreFactory = new AppStoreFactory();
+    const app = document.getElementById("app");
+    const appStore = await storeFactory.create();
 
-const storeFactory: AppStoreFactory = new AppStoreFactory();
-const app = document.getElementById("app");
+    ReactDOM.render(
+        <App store={appStore} />,
+        app);
 
-ReactDOM.render(
-    <App store={storeFactory.create()} />,
-    app);
+    (window as any).NProgress.done();
+    delete (window as any).requirejs.onResourceLoad;
+    app.className = "";
+};
 
-(window as any).NProgress.done();
-delete (window as any).requirejs.onResourceLoad;
-app.className = "";
+main()
+    .catch((error: Error) => {
+        alert(error.message);
+    });

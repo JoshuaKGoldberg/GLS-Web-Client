@@ -47,7 +47,6 @@ gulp.task("tsc", () => {
     const merge = require("merge2");
     const sourcemaps = require("gulp-sourcemaps");
     const ts = require("gulp-typescript");
-    const uglify = require("gulp-uglify");
 
     const project = ts.createProject("tsconfig.json");
     const output = project
@@ -58,7 +57,6 @@ gulp.task("tsc", () => {
     return merge([
         output.dts.pipe(gulp.dest("lib")),
         output.js
-            .pipe(uglify())
             .pipe(sourcemaps.write())
             .pipe(gulp.dest("lib"))
     ]);

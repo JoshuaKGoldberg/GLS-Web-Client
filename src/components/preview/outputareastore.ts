@@ -1,7 +1,7 @@
 import { ConversionContext, LanguagesBag } from "general-language-syntax";
-import { computed, observable } from "mobx";
+import { action, computed, observable } from "mobx";
+import { Parser as NglsParser } from "ngls";
 
-import { InputAreaStore } from "../editor/inputareastore";
 import { OutputBarStore } from "./outputbarstore";
 
 /**
@@ -20,66 +20,63 @@ export interface IConversionResult {
 }
 
 /**
- * Store for a GlsOutputArea component.
+ * Store for a OutputArea component.
  */
 export class OutputAreaStore {
     /**
      * Supported GLS languages.
      */
-    private static languagesBag: LanguagesBag = new LanguagesBag();
-
-    /**
-     * Store for an InputArea component.
-     */
-    @observable
-    public inputArea: InputAreaStore;
+    private static languagesBag = new LanguagesBag();
 
     /**
      * Store for an OutputBar component.
      */
     @observable
-    public outputBar: OutputBarStore;
+    public readonly outputBar: OutputBarStore;
 
     /**
-     * The last known good conversion result.
+     * The last known conversion result and any subsequent error.
      */
-    private lastGoodOutputLines: string[] = [];
+    @observable
+    public result: IConversionResult = {
+        outputLines: [],
+    };
 
     /**
-     * Current results from attempting a GLS conversion.
+     * Parses raw string lines into GLS.
      */
-    @computed
-    public get conversionResult(): IConversionResult {
-        const result: IConversionResult = {
-            outputLines: this.lastGoodOutputLines,
-        };
-
-        try {
-            result.outputLines = this.conversionContext.convert(this.inputArea.sourceLines);
-            this.lastGoodOutputLines = result.outputLines;
-        } catch (error) {
-            result.error = (error as any).message;
-        }
-
-        return result;
-    }
+    private readonly nglsParser: NglsParser;
 
     /**
-     * GLS conversion context for the current language.
-     */
-    @computed
-    private get conversionContext(): ConversionContext {
-        return new ConversionContext(OutputAreaStore.languagesBag[this.outputBar.language]);
-    }
-
-    /**
-     * Initializes a new instance of the GlsOutputAreaStore class.
+     * Initializes a new instance of the OutputAreaStore class.
      * 
      * @param glsInputArea   Store for an InputArea component.
      * @param outputBar   Store for an OutputBar component.
+     * @param nglsParser   Parses NGLS string lines into GLS.
      */
-    public constructor(inputArea: InputAreaStore, outputBar: OutputBarStore) {
-        this.inputArea = inputArea;
+    public constructor(outputBar: OutputBarStore, nglsParser: NglsParser) {
         this.outputBar = outputBar;
+        this.nglsParser = nglsParser;
+    }
+
+    /**
+     * Computing a new code result.
+     * 
+     * @param sourceLines   Source lines of NGLS.
+     * @remarks DON'T JUDGE ME
+     */
+    @action
+    public recompute(sourceLines: string[], language: string): void {
+        const conversionContext = new ConversionContext(OutputAreaStore.languagesBag[this.outputBar.language]);
+
+        try {
+            const glsLines = this.nglsParser.parseLines(sourceLines);
+            const outputLines = conversionContext.convert(glsLines);
+
+            this.result.outputLines = outputLines;
+            this.result.error = undefined;
+        } catch (error) {
+            this.result.error = error.message;
+        }
     }
 }

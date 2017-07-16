@@ -1,7 +1,9 @@
+import * as fs from "mz/fs";
+import { createParser } from "ngls";
+
 import { Samples } from "../samples";
 import { StorageWrapper } from "../storage/storagewrapper";
 import { AppStore } from "./appstore";
-import { CommandsListStore } from "./editor/commands/commandsliststore";
 import { InputAreaStore } from "./editor/inputareastore";
 import { InputBarStore } from "./editor/inputbarstore";
 import { EditorStore } from "./editorstore";
@@ -14,19 +16,19 @@ import { PreviewStore } from "./previewstore";
  */
 export class AppStoreFactory {
     /**
-     * @returns A new instance of the AppStore class.
+     * @returns A Promise for a new instance of the AppStore class.
      */
-    public create() {
+    public async create(): Promise<AppStore> {
         const storageWrapper = new StorageWrapper("gls-web-client");
+        const nglsParser = await createParser();
 
-        const commandsList = new CommandsListStore(storageWrapper);
         const inputArea = new InputAreaStore(storageWrapper);
-        const inputBar = new InputBarStore(storageWrapper, inputArea, commandsList, Samples);
+        const inputBar = new InputBarStore(storageWrapper, inputArea, Samples);
         const outputBar = new OutputBarStore(storageWrapper);
-        const outputArea = new OutputAreaStore(inputArea, outputBar);
+        const outputArea = new OutputAreaStore(outputBar, nglsParser);
 
         return new AppStore(
-            new EditorStore(inputArea, commandsList, inputBar),
+            new EditorStore(inputArea, inputBar),
             new PreviewStore(outputBar, inputArea, outputArea));
     }
 }
